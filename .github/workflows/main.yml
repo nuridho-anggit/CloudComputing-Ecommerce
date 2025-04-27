@@ -23,7 +23,7 @@ jobs:
 
     - name: Copy to EC2
       run: |
-        scp -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no ./* ec2-user@${{ secrets.EC2_HOSTNAME }}:/var/www/CloudComputing-Ecommerce
+        scp -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no ./dist/* ec2-user@${{ secrets.EC2_HOSTNAME }}:/var/www/CloudComputing-Ecommerce
 
     - name: Run app with PM2
       run: |
