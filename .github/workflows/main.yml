@@ -20,7 +20,7 @@ jobs:
         username: ec2-user
         key: ${{ secrets.EC2_ACCESS_KEY }}
         source: "./*"
-        target: /var/www/mywebsite/ecommerce-app
+        target: /var/www/CloudComputing-Ecommerce
 
     - name: Run app with PM2
       uses: appleboy/ssh-action@v0.1.10
@@ -29,5 +29,5 @@ jobs:
         username: ec2-user
         key: ${{ secrets.EC2_ACCESS_KEY }}
         script: |
-          cd /var/www/mywebsite/ecommerce-app
+          sudo cd /var/www/CloudComputing-Ecommerce
           sudo systemctl restart nginx
