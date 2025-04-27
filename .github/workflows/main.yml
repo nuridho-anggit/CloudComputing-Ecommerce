@@ -20,7 +20,7 @@ jobs:
         username: ubuntu
         key: ${{ secrets.EC2_ACCESS_KEY }}
         debug: true
-        source: "./*"
+        source: "index.html"
         target: /var/www/CloudComputing-Ecommerce
 
     - name: Run app with PM2
