@@ -4,6 +4,7 @@ on:
   push:
     branches:
       - master
+  workflow_dispatch:
 
 jobs:
   deploy:
@@ -12,22 +13,21 @@ jobs:
     steps:
     - name: Checkout repo
       uses: actions/checkout@v3
-    
+
+    - name: Setup SSH Key
+      run: |
+        mkdir -p ~/.ssh
+        echo "${{ secrets.EC2_ACCESS_KEY }}" > ~/.ssh/id_rsa
+        chmod 600 ~/.ssh/id_rsa
+        ssh-keyscan -H ${{ secrets.EC2_HOSTNAME }} >> ~/.ssh/known_hosts
+
     - name: Copy to EC2
-      uses: appleboy/scp-action@v0.1.3
-      with:
-        host: ${{ secrets.EC2_HOSTNAME }}
-        username: ec2-user
-        key: ${{ secrets.EC2_ACCESS_KEY }}
-        source: "./*"
-        target: /var/www/CloudComputing-Ecommerce
+      run: |
+        scp -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no ./* ec2-user@${{ secrets.EC2_HOSTNAME }}:/var/www/CloudComputing-Ecommerce
 
     - name: Run app with PM2
-      uses: appleboy/ssh-action@v0.1.10
-      with:
-        host: ${{ secrets.EC2_HOSTNAME }}
-        username: ec2-user
-        key: ${{ secrets.EC2_ACCESS_KEY }}
-        script: |
+      run: |
+        ssh -i ~/.ssh/id_rsa -o StrictHostKeyChecking=no ec2-user@${{ secrets.EC2_HOSTNAME }} << 'EOF'
           cd /var/www/CloudComputing-Ecommerce
           sudo systemctl restart nginx
+        EOF
