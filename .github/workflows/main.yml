@@ -12,22 +12,23 @@ jobs:
     steps:
     - name: Checkout repo
       uses: actions/checkout@v3
-    
+
     - name: Copy to EC2
       uses: appleboy/scp-action@v0.1.3
       with:
         host: ${{ secrets.EC2_HOSTNAME }}
-        username: ec2-user
-        key: ${{ secrets.EC2_SECRET_KEY }}
-        source: "./*"
+        username: ubuntu
+        key: ${{ secrets.EC2_ACCESS_KEY }}
+        debug: true
+        source: "index.html"
         target: /var/www/CloudComputing-Ecommerce
 
     - name: Run app with PM2
       uses: appleboy/ssh-action@v0.1.10
       with:
         host: ${{ secrets.EC2_HOSTNAME }}
-        username: ec2-user
-        key: ${{ secrets.EC2_SECRET_KEY }}
+        username: ubuntu
+        key: ${{ secrets.EC2_ACCESS_KEY }}
         script: |
-          cd /var/www/CloudComputing-Ecommerce
+          sudo cd /var/www/CloudComputing-Ecommerce
           sudo systemctl restart nginx
