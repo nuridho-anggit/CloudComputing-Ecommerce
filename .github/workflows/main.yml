@@ -17,8 +17,9 @@ jobs:
       uses: appleboy/scp-action@v0.1.3
       with:
         host: ${{ secrets.EC2_HOSTNAME }}
-        username: ec2-user
+        username: ubuntu
         key: ${{ secrets.EC2_ACCESS_KEY }}
+        debug: true
         source: "./*"
         target: /var/www/CloudComputing-Ecommerce
 
