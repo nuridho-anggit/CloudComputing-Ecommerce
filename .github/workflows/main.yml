@@ -18,7 +18,7 @@ jobs:
       with:
         host: ${{ secrets.EC2_HOSTNAME }}
         username: ec2-user
-        key: ${{ secrets.EC2_SECRET_KEY }}
+        key: ${{ secrets.ACCESS_KEY }}
         source: "./*"
         target: /var/www/CloudComputing-Ecommerce
 
@@ -27,7 +27,7 @@ jobs:
       with:
         host: ${{ secrets.EC2_HOSTNAME }}
         username: ec2-user
-        key: ${{ secrets.EC2_SECRET_KEY }}
+        key: ${{ secrets.ACCESS_KEY }}
         script: |
           cd /var/www/CloudComputing-Ecommerce
           sudo systemctl restart nginx
