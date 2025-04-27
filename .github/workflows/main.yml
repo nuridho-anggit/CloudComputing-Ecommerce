@@ -20,14 +20,14 @@ jobs:
         username: ubuntu
         key: ${{ secrets.EC2_ACCESS_KEY }}
         debug: true
-        source: "index.html"
+        source: "./*"
         target: /var/www/CloudComputing-Ecommerce
 
     - name: Run app with PM2
       uses: appleboy/ssh-action@v0.1.10
       with:
         host: ${{ secrets.EC2_HOSTNAME }}
-        username: ec2-user
+        username: ubuntu
         key: ${{ secrets.EC2_ACCESS_KEY }}
         script: |
           sudo cd /var/www/CloudComputing-Ecommerce
